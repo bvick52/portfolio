@@ -1,0 +1,547 @@
+﻿<!DOCTYPE html>
+	<html lang="en">
+	<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+	<title>BV — Portfolio</title>
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+	<style>
+	
+
+	.plate-img img{width:100%; height:100%; object-fit:cover; display:block}
+	.plate-img img.fit-contain{object-fit:contain; padding:24px}
+	:root{
+	--paper:#EEF2F5; --line:rgba(16,24,32,.14); --line-soft:rgba(16,24,32,.06);
+	--ink:#101820; --ink-soft:#57636C;
+	--cyan:#0FAEC9; --blue:#2A56C6; --cadet-gray:#91A3B0; --accent-soft:rgba(15,174,201,.12);
+	}
+	*{box-sizing:border-box}
+	html{scroll-padding-top:64px}
+	body{
+	margin:0; background:var(--paper); color:var(--ink);
+	font-family:'Inter',system-ui,sans-serif; font-size:16px; line-height:1.5;
+	background-image:
+	repeating-linear-gradient(0deg, var(--line) 0 1px, transparent 1px 88px),
+	repeating-linear-gradient(90deg, var(--line) 0 1px, transparent 1px 88px),
+	repeating-linear-gradient(0deg, var(--line-soft) 0 1px, transparent 1px 22px),
+	repeating-linear-gradient(90deg, var(--line-soft) 0 1px, transparent 1px 22px);
+	padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+	text-transform:uppercase;
+	}
+	.display{font-family:Myriad Pro,'Myriad Pro',Candara,'Noto Sans','Segoe UI',sans-serif; text-transform:none}
+	.mono{font-family:'Inter',system-ui,sans-serif}
+	a{color:inherit}
+	.wrap{max-width:1040px; margin:0 auto; padding:0 28px}
+	
+
+	.titlebar{position:sticky; top:0; z-index:20; background:var(--paper); border-bottom:1px solid var(--line); padding-top:env(safe-area-inset-top,0px)}
+	.titlebar-row{display:flex; justify-content:space-between; align-items:center; padding:14px 28px; max-width:1040px; margin:0 auto; font-size:12px; letter-spacing:.06em; text-transform:uppercase; color:var(--ink-soft)}
+	.titlebar-row span.mark{color:var(--cyan)}
+	.menu{position:relative}
+	.menu summary{list-style:none; cursor:pointer; display:flex; align-items:center; gap:6px}
+	.menu summary::-webkit-details-marker{display:none}
+	.menu summary::marker{content:""}
+	.menu summary .mark{display:inline-block; transition:transform .2s}
+	.menu[open] summary .mark{transform:rotate(45deg)}
+	.menu-panel{position:absolute; top:calc(100% + 14px); left:-28px; min-width:280px; background:var(--paper); border:1px solid var(--line); z-index:30}
+	.menu-panel a{display:flex; gap:12px; align-items:baseline; padding:12px 20px; font-size:14px; letter-spacing:0; text-decoration:none; color:var(--ink); border-top:1px dashed var(--line)}
+	.menu-panel a:first-child{border-top:none}
+	.menu-panel a:hover{color:var(--cyan)}
+	.menu-panel a .mono{color:var(--cyan); width:16px; font-size:12px; flex-shrink:0}
+	
+
+	/* hero */
+	.hero{position:relative; padding:110px 0 90px; border-bottom:1px solid var(--line); overflow:hidden}
+	.hero-bg{position:absolute; inset:0; z-index:0; pointer-events:none; overflow:hidden}
+	.blob{position:absolute; border-radius:50%; filter:blur(70px); opacity:.5}
+	.blob.b1{width:440px; height:440px; background:radial-gradient(circle, var(--cyan), transparent 70%); top:-160px; left:-100px}
+	.blob.b2{width:380px; height:380px; background:radial-gradient(circle, var(--blue), transparent 70%); bottom:-160px; right:-80px}
+	@media (prefers-reduced-motion: no-preference){
+	.blob.b1{animation:drift1 15s ease-in-out infinite alternate}
+	.blob.b2{animation:drift2 17s ease-in-out infinite alternate}
+	.orbit-node{animation-play-state:running}
+	.draw{stroke-dasharray:60; stroke-dashoffset:60; animation:draw 1.1s ease forwards .2s}
+	}
+	@keyframes drift1{from{transform:translate(0,0) scale(1)} to{transform:translate(50px,35px) scale(1.15)}}
+	@keyframes drift2{from{transform:translate(0,0) scale(1)} to{transform:translate(-45px,-30px) scale(1.12)}}
+	@keyframes draw{to{stroke-dashoffset:0}}
+	
+
+	.orbit-wrap{position:absolute; right:2%; top:50%; width:320px; height:320px; transform:translateY(-50%); opacity:.75}
+	@media(max-width:800px){.orbit-wrap{display:none}}
+	.orbit-ring{position:absolute; inset:0; border:1px dashed var(--line); border-radius:50%}
+	.orbit-ring.r2{inset:40px}
+	.orbit-ring.r3{inset:80px}
+	.orbit-node{position:absolute; top:50%; left:50%; width:180px; height:180px; margin:-90px 0 0 -90px; animation:spin 12s linear infinite}
+	.orbit-node.n2{width:260px; height:260px; margin:-130px 0 0 -130px; animation-duration:20s; animation-direction:reverse}
+	.orbit-node.n3{width:100px; height:100px; margin:-50px 0 0 -50px; animation-duration:8s}
+	.orbit-node i{position:absolute; top:0; left:50%; width:9px; height:9px; margin-left:-4.5px; border-radius:50%; background:var(--cyan)}
+	.orbit-node.n2 i{background:var(--blue); width:7px; height:7px; margin-left:-3.5px}
+	.orbit-node.n3 i{background:var(--ink-soft); width:5px; height:5px; margin-left:-2.5px}
+	@keyframes spin{to{transform:rotate(360deg)}}
+	
+
+	.frame{position:relative; padding:40px 0; z-index:1}
+	.cross{position:absolute; width:22px; height:22px}
+	.cross svg{width:100%; height:100%; display:block}
+	.cross.tl{top:0; left:0} .cross.tr{top:0; right:0} .cross.bl{bottom:0; left:0} .cross.br{bottom:0; right:0}
+	.hero h1{font-size:clamp(56px,10vw,128px); margin:0; line-height:.95; font-weight:600}
+	.hero-meta{display:flex; gap:40px; margin-top:34px; flex-wrap:wrap; align-items:flex-start}
+	.hero-note{max-width:360px; font-size:16px; color:var(--ink-soft); position:relative; padding-left:22px; font-family:'Myriad Pro',sans-serif; font-style:normal; text-transform:none; line-height:1.6}
+	.hero-note::before{content:""; position:absolute; left:0; top:8px; width:14px; height:1px; background:var(--cyan)}
+	.hero-tags{display:flex; flex-direction:column; gap:6px; font-size:13px}
+	.hero-tags .t{display:flex; gap:10px}
+	.hero-tags .t .n{width:16px; color:var(--cyan)}
+	
+
+	.index{border-bottom:1px solid var(--line)}
+	.index-head{padding:28px 0 10px; font-size:12px; letter-spacing:.06em; color:var(--blue)}
+	.index-list{list-style:none; margin:0; padding:0 0 30px}
+	.index-list li{border-top:1px dashed var(--line)}
+	.index-list a{display:flex; align-items:baseline; gap:20px; padding:16px 0; text-decoration:none}
+	.index-list .num{font-family:'Inter',sans-serif; font-size:13px; color:var(--cyan); width:28px; flex-shrink:0}
+	.index-list .cat{font-size:20px; flex-shrink:0}
+	.index-list .desc{font-size:13px; color:var(--blue); flex:1; text-align:right}
+	.index-list a:hover .cat{color:var(--cyan)}
+	
+
+	.plate{padding:70px 0; border-bottom:1px solid var(--line); scroll-margin-top:64px}
+	.plate-tag{display:flex; align-items:center; gap:10px; font-size:12px; letter-spacing:.06em; color:var(--cyan); margin-bottom:18px}
+	.plate-tag .ln{width:36px; height:1px; background:var(--cyan)}
+	.plate h2{font-size:clamp(30px,4.5vw,48px); font-weight:600; margin:0 0 14px}
+	.plate p.desc{max-width:520px; color:var(--ink-soft); font-size:16px; margin:0 0 34px; font-family:'Myriad Pro',sans-serif; font-style:normal; text-transform:none; line-height:1.6}
+	
+
+	.gallery{display:grid; gap:18px}
+	.gallery.g1{grid-template-columns:1fr}
+	.gallery.g2{grid-template-columns:1fr 1fr}
+	.gallery.g3{grid-template-columns:repeat(3,1fr)}
+	@media(max-width:720px){.gallery.g2,.gallery.g3{grid-template-columns:1fr}}
+	
+
+	.plate-img{position:relative; border:1px dashed var(--line); background:var(--accent-soft); aspect-ratio:4/3; display:flex; align-items:center; justify-content:center; text-align:center}
+	.plate-img .ph{font-size:12px; color:var(--ink-soft); padding:0 20px}
+	.plate-img .ph .cap{display:block; margin-top:6px; font-family:'Inter',sans-serif; font-size:11px; color:var(--cyan)}
+
+
+.plate-img img{cursor:zoom-in} .lightbox{position:fixed; inset:0; z-index:100; background:rgba(16,24,32,.88); display:none; align-items:center; justify-content:center; padding:28px; cursor:zoom-out} .lightbox.open{display:flex} .lightbox img{max-width:100%; max-height:100%; object-fit:contain}
+
+
+	
+
+	footer{padding:60px 0 50px}
+	.spec-grid{display:grid; grid-template-columns:1fr 1fr; gap:30px; border-top:1px solid var(--line); padding-top:30px}
+	@media(max-width:600px){.spec-grid{grid-template-columns:1fr}}
+	.spec-head{font-size:12px; letter-spacing:.06em; color:var(--ink-soft); margin-bottom:10px}
+	.spec-grid a{text-decoration:none; border-bottom:1px solid var(--line)}
+	.rev{margin-top:40px; font-family:'Inter',sans-serif; font-size:11px; color:var(--ink-soft); display:flex; justify-content:space-between}
+	
+
+	:focus-visible{outline:2px solid var(--cyan); outline-offset:2px}
+	
+
+	/* --- timeline plate --- */
+	.tl-legend{display:flex; gap:28px; margin-bottom:34px; flex-wrap:wrap; text-transform:none}
+	.tl-legend-item{display:flex; align-items:center; gap:8px; font-family:'Inter',sans-serif; font-size:13px; color:var(--ink-soft)}
+	.tl-swatch{width:10px; height:10px; border-radius:2px}
+	.tl-swatch.career{background:var(--cyan)}
+	.tl-swatch.edu{background:var(--blue)}
+	
+
+	.tl-scroller{overflow-x:auto; overflow-y:visible; padding-bottom:4px; margin:0 -28px; padding-left:28px; padding-right:28px}
+	.tl-stage{position:relative; min-width:1180px; height:480px}
+	.tl-track{position:absolute; left:90px; right:90px; top:0; bottom:0}
+	.tl-axis{position:absolute; left:0; right:0; top:270px; height:1px; border-bottom:1px dashed var(--line)}
+	.tl-axis-fill{position:absolute; left:0; top:-1.5px; height:3px; background:linear-gradient(90deg, var(--cyan), var(--blue)); transform-origin:left center; transform:scaleX(0); transition:transform 1.1s cubic-bezier(.22,.8,.28,1)}
+	.tl-stage.in-view .tl-axis-fill{transform:scaleX(1)}
+	
+
+	.tl-item{position:absolute; display:flex; flex-direction:column; align-items:center; width:190px; opacity:0; transition:opacity .55s ease, transform .55s ease}
+	.tl-stage.in-view .tl-item{opacity:1; transform:translateY(0) !important}
+	.tl-item.edu{flex-direction:column}
+	.tl-item.career{flex-direction:column-reverse}
+	.tl-connector{position:relative; width:1px; background:var(--line)}
+	.tl-connector::after{content:""; position:absolute; left:50%; transform:translateX(-50%); width:7px; height:7px; border-radius:50%}
+	.tl-item.edu .tl-connector::after{top:-3.5px; background:var(--blue)}
+	.tl-item.career .tl-connector::after{bottom:-3.5px; background:var(--cyan)}
+	
+
+	.tl-card{padding:12px 14px; border:1px solid var(--line); background:rgba(255,255,255,.55); text-transform:none}
+	.tl-item.career .tl-card{border-left:3px solid var(--cyan)}
+	.tl-item.edu .tl-card{border-left:3px solid var(--blue)}
+	.tl-title{font-family:'Myriad Pro','Myriad Pro',Candara,'Noto Sans','Segoe UI',sans-serif; font-size:14px; font-weight:600; margin:0 0 3px; line-height:1.25; color:var(--ink)}
+	.tl-note{font-family:'Inter',sans-serif; font-size:12px; line-height:1.4; color:var(--ink-soft); margin:0}
+	
+
+	@media (prefers-reduced-motion: reduce){
+	.tl-axis-fill,.tl-item{transition:none !important; animation:none !important}
+	.tl-axis-fill{transform:scaleX(1)}
+	.tl-item{opacity:1; transform:none !important}
+	}
+	
+
+	/* --- banner ad unit --- */
+	.ad-unit{padding:50px 0 70px}
+	.ad-eyebrow{text-align:center; font-size:10px; letter-spacing:.14em; color:var(--ink-soft); margin-bottom:14px; opacity:.6}
+	.ad-frame{position:relative; max-width:970px; margin:0 auto; aspect-ratio:970/250; border:1px dashed var(--line); background:var(--accent-soft); overflow:hidden}
+	@media(max-width:1000px){.ad-frame{aspect-ratio:4/3}}
+	.ad-slide{position:absolute; inset:0; opacity:0; transition:opacity .6s ease; display:flex; align-items:center; justify-content:center; text-align:center; text-decoration:none; color:inherit; cursor:default}
+	.ad-slide.active{opacity:1; z-index:1}
+	.ad-slide.is-clickable{cursor:pointer}
+	.ad-slide.is-clickable:hover{background:rgba(15,174,201,.06)}
+	.ad-slide img{width:100%; height:100%; object-fit:cover; display:block}
+	.ad-dots{display:flex; justify-content:center; gap:8px; margin-top:14px}
+	.ad-dot{width:6px; height:6px; border-radius:50%; background:var(--line); border:none; padding:0; cursor:pointer}
+	.ad-dot.active{background:var(--cyan)}
+	@media (prefers-reduced-motion: reduce){
+	.ad-slide{transition:none !important}
+	}
+	</style>
+
+
+	</head>
+	<body>
+	
+
+	<div class="titlebar">
+	<div class="titlebar-row">
+	<details class="menu">
+	<summary><span class="mark">＋</span> BV — PORTFOLIO</summary>
+	<div class="menu-panel">
+	<a href="#p01"><span class="mono">01</span>Technical Visualization</a>
+	<a href="#p02"><span class="mono">02</span>Logo / Branding</a>
+	<a href="#p03"><span class="mono">03</span>Layout / Advertisements</a>
+	<a href="#p04"><span class="mono">04</span>Digital Campaigns</a>
+	<a href="#p05"><span class="mono">05</span>Career Timeline</a>
+	</div>
+	</details>
+	<span>REV. A / 2026</span>
+	</div>
+	</div>
+	
+
+	<section class="hero">
+	<div class="hero-bg">
+	<div class="blob b1"></div>
+	<div class="blob b2"></div>
+	<div class="orbit-wrap">
+	<div class="orbit-ring"></div>
+	<div class="orbit-ring r2"></div>
+	<div class="orbit-ring r3"></div>
+	<div class="orbit-node"><i></i></div>
+	<div class="orbit-node n2"><i></i></div>
+	<div class="orbit-node n3"><i></i></div>
+	</div>
+	</div>
+	
+
+	<div class="wrap frame">
+	<span class="cross tl"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="var(--ink)" stroke-width="1" opacity=".3"/><line class="draw" x1="12" y1="4" x2="12" y2="20" stroke="var(--cyan)" stroke-width="1"/><line class="draw" x1="4" y1="12" x2="20" y2="12" stroke="var(--cyan)" stroke-width="1"/></svg></span>
+	<span class="cross tr"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="var(--ink)" stroke-width="1" opacity=".3"/><line class="draw" x1="12" y1="4" x2="12" y2="20" stroke="var(--cyan)" stroke-width="1"/><line class="draw" x1="4" y1="12" x2="20" y2="12" stroke="var(--cyan)" stroke-width="1"/></svg></span>
+	<span class="cross bl"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="var(--ink)" stroke-width="1" opacity=".3"/><line class="draw" x1="12" y1="4" x2="12" y2="20" stroke="var(--cyan)" stroke-width="1"/><line class="draw" x1="4" y1="12" x2="20" y2="12" stroke="var(--cyan)" stroke-width="1"/></svg></span>
+	<span class="cross br"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="var(--ink)" stroke-width="1" opacity=".3"/><line class="draw" x1="12" y1="4" x2="12" y2="20" stroke="var(--cyan)" stroke-width="1"/><line class="draw" x1="4" y1="12" x2="20" y2="12" stroke="var(--cyan)" stroke-width="1"/></svg></span>
+	
+
+	<h1 class="display">BV Portfolio</h1>
+	
+
+	<div class="hero-meta">
+	<p class="hero-note">Graphic designer working across digital assets, technical illustration, identity systems, and regulated documentation — making complex information clear, visual and easy to understand. Experienced in PIM, DAM and PLM. </p>
+	<div class="hero-tags mono">
+	<div class="t"><span class="n">01</span> Technical visualization</div>
+	<div class="t"><span class="n">02</span> Logo &amp; branding</div>
+	<div class="t"><span class="n">03</span> Layout &amp; Advertisements</div>
+	<div class="t"><span class="n">04</span> Digital campaigns</div>
+	<div class="t"><span class="n">05</span> Career timeline</div>
+	</div>
+	</div>
+	</div>
+	</section>
+	
+
+	<section class="index">
+	<div class="wrap">
+	<div class="index-head">INDEX OF PLATES</div>
+	<ul class="index-list">
+	<li><a href="#p01"><span class="num mono">01</span><span class="cat display">Technical Visualization</span><span class="desc">physics &amp; diagram work</span></a></li>
+	<li><a href="#p02"><span class="num mono">02</span><span class="cat display">Logo / Branding</span><span class="desc">identity systems</span></a></li>
+	<li><a href="#p03"><span class="num mono">03</span><span class="cat display">Layout / Advertisements</span><span class="desc">magazine ads</span></a></li>
+	<li><a href="#p04"><span class="num mono">04</span><span class="cat display">Digital Campaigns</span><span class="desc">social media marketing</span></a></li>
+	<li><a href="#p05"><span class="num mono">05</span><span class="cat display">Career Timeline</span><span class="desc">roles &amp; training, side by side</span></a></li>
+	</ul>
+	</div>
+	</section>
+	
+
+	<section class="plate" id="p01">
+	<div class="wrap">
+	<div class="plate-tag mono"><span>PLATE 01</span><span class="ln"></span><span>TECHNICAL VISUALIZATION</span></div>
+	<h2 class="display">Where Science met Design</h2>
+	<p class="desc">I got my start as a Graphic Artist Assistant in the Graphic Design department of Florida State University’s Physics department, creating and recreating graphs, diagrams, and technical illustrations for publications. It was an early introduction to translating complex information into clear, visually accessible communication.
+	</p>
+	<div class="gallery g2">
+	<div class="plate-img"><img src="BV_Chart01before.webp" alt="Technical Visualization"></div>
+	<div class="plate-img"><img src="BV_Chart01After.webp" alt="Technical Visualization"></div>
+	<div class="plate-img"><img src="BV_Chart02before.webp" alt="Technical Visualization"></div>
+	<div class="plate-img"><img src="BV_Chart02After.webp" alt="Technical Visualization"></div>
+	</div>
+	</div>
+	</section>
+	
+
+	<section class="plate" id="p02">
+	<div class="wrap">
+	<div class="plate-tag mono"><span>PLATE 02</span><span class="ln"></span><span>LOGO / BRANDING</span></div>
+	<h2 class="display">From Logo to Brand Identity</h2>
+	<p class="desc">A strong identity is more than a logo. These branding projects explore how a visual identity translates across different formats and environments—from business cards and billboards to digital landing pages—while maintaining a consistent and recognizable brand presence.
+	</p>
+	<div class="gallery g3">
+	<div class="plate-img"><img src="BV_AAAILogo.webp" alt="Logo and Branding"></div>
+	<div class="plate-img"><img src="BV_ShellSurfingLogo.webp" alt="Logo and Branding"></div>
+	<div class="plate-img"><img src="BV_GOLogo.webp" alt="Logo and Branding"></div>
+	<div class="plate-img"><img src="BV_AAAICards.webp" alt="Logo and Branding"></div>
+	<div class="plate-img"><img src="BV_ShellBillboard.webp" alt="Logo and Branding"></div>
+	<div class="plate-img"><img src="BV_GOWeb.png" alt="Logo and Branding"></div>
+	</div>
+	</div>
+	</section>
+	
+
+	<section class="plate" id="p03">
+	<div class="wrap">
+	<div class="plate-tag mono"><span>PLATE 03</span><span class="ln"></span><span>ADVERTISEMENTS / LAYOUT DESIGN</span></div>
+	<h2 class="display">Where Design meets the Message</h2>
+	<p class="desc">These advertising concepts explore how typography, imagery, hierarchy, and composition can work together to communicate a message and create a distinct visual experience. The projects span a luxury sports car and a real estate welcome-home campaign—demonstrating how design choices can shift with the brand, audience, and purpose.
+	</p>
+	<div class="gallery g2">
+	<div class="plate-img"><img src="BV_CopperEAd.webp" alt="Advertisement"></div>
+	<div class="plate-img"><img src="BV_RealEstateAd.webp" alt="Advertisement"></div>
+	</div>
+	</div>
+	</section>
+	
+
+	<section class="plate" id="p04" style="border-bottom:none">
+	<div class="wrap">
+	<div class="plate-tag mono"><span>PLATE 04</span><span class="ln"></span><span>DIGITAL CAMPAIGNS</span></div>
+	<h2 class="display">Where Design Adapts to the Digital Space</h2>
+	<p class="desc">These digital campaign concepts explore how a visual identity can translate across digital advertising formats and platforms. Five layouts for two distinct brands demonstrate how composition, messaging, and visual hierarchy can be adapted to different dimensions and audiences while maintaining a cohesive brand presence.
+	</p>
+	<div class="gallery g2">
+	<div class="plate-img"><img src="BV_GodisKit.webp" alt="DigitalCampaign"></div>
+	<div class="plate-img"><img src="BV_ShellSurfingKit.webp" alt="DigitalCampaign"></div>
+	</div>
+	</div>
+	</section>
+	
+
+	<section class="plate" id="p05" style="border-bottom:none">
+	<div class="wrap">
+	<div class="plate-tag mono"><span>PLATE 05</span><span class="ln"></span><span>CAREER TIMELINE</span></div>
+	<h2 class="display">Career &amp; education</h2>
+	<p class="desc">Roles and training plotted side by side, in order, to show where design, teaching, documentation, and systems work overlapped along the way.</p>
+	
+
+	<div class="tl-legend">
+	<div class="tl-legend-item"><span class="tl-swatch career"></span>Career span</div>
+	<div class="tl-legend-item"><span class="tl-swatch edu"></span>Education &amp; training</div>
+	</div>
+	
+
+	<div class="tl-scroller">
+	<div class="tl-stage" id="tlStage">
+	<div class="tl-track">
+	<div class="tl-axis"><div class="tl-axis-fill"></div></div>
+	<div id="tlItems"></div>
+	</div>
+	</div>
+	</div>
+	
+
+	</div>
+	</section>
+	
+
+	<section class="ad-unit" id="adUnit">
+	<div class="wrap">
+	<div class="ad-eyebrow mono">Advertisement</div>
+	<div class="ad-frame" id="adFrame"></div>
+	<div class="ad-dots" id="adDots"></div>
+	</div>
+	</section>
+	
+
+	<footer>
+	<div class="wrap">
+	<div class="spec-grid">
+	<div>
+	<div class="spec-head">CONTACT</div>
+	<div><a href="mailto:alignandapply@outlook.com">alignandapply@outlook.com</a></div>
+	</div>
+	<div>
+	<div class="spec-head">BASED IN</div>
+	<div>US — Remote</div>
+	</div>
+	</div>
+	<div class="rev">
+	<span>BV — PORTFOLIO</span>
+	<span>© 2026</span>
+	</div>
+	</div>
+	</footer>
+	
+
+	<script>
+	var menu = document.querySelector('.menu');
+	document.querySelectorAll('.menu-panel a').forEach(function(a){
+	a.addEventListener('click', function(){ menu.removeAttribute('open'); });
+	});
+	document.addEventListener('click', function(e){
+	if(menu.hasAttribute('open') && !menu.contains(e.target)) menu.removeAttribute('open');
+	});
+	</script>
+	
+
+	<script>
+	(function(){
+	// x: manually placed position (% along the axis, 0-100).
+	// Concurrent items (same period) share the same x so they align directly
+	// above/below each other on the axis. lane: 0 or 1, alternates card
+	// distance from the axis to keep neighboring cards from overlapping.
+	var data = [
+	{side:'edu', x:5, lane:0, title:'BS, Graphic Design — FSU', note:'Foundational training in visual design and typography.'},
+	{side:'career', x:5, lane:0, title:'Graphic Artist Assistant', note:'Supported the FSU Physics department with visual and lab graphics.'},
+	{side:'career', x:18, lane:1, title:'Digital Retouch Artist', note:'Refined and prepared photography for print and commercial production.'},
+	{side:'career', x:32, lane:0, title:'Art Teacher', note:'Taught the elements of art and the principles of design.'},
+	{side:'edu', x:32, lane:0, title:'Graduate Coursework, Art Education — UCF', note:'Advanced study in art pedagogy and curriculum.'},
+	{side:'career', x:58, lane:0, title:'Digital Solutions Analyst', note:'Product information management and customer experience analytics.'},
+	{side:'edu', x:68, lane:0, title:'UX Design & Data Analytics — Google Coursera', note:'Applied coursework in user experience and data-driven design.'},
+	{side:'career', x:78, lane:1, title:'Documentation Systems Coordinator', note:'Engineering change control and large-scale documentation systems.'},
+	{side:'career', x:88, lane:0, title:'AI Data Specialist', note:'Applied AI tools to data organization and analysis workflows.'},
+	{side:'career', x:98, lane:1, title:'Digital Asset Tagging & Ingestion Specialist', note:'Tags and ingests digital assets into enterprise DAM system.'}
+	];
+	
+
+	var stage = document.getElementById('tlStage');
+	if(!stage) return;
+	var itemsEl = document.getElementById('tlItems');
+	
+
+	var axisY = 270, laneGap = [64,150];
+	
+
+	function render(){
+	itemsEl.innerHTML = '';
+	
+
+	data.forEach(function(d){
+	var gap = laneGap[d.lane];
+	var el = document.createElement('div');
+	el.className = 'tl-item '+d.side;
+	el.style.left = d.x+'%';
+	el.style.transform = 'translate(-50%,'+(d.side==='career' ? '10px' : '-10px')+')';
+	el.style.transitionDelay = (250 + d.x*7)+'ms';
+	if(d.side === 'career'){
+	el.style.bottom = (480-axisY)+'px';
+	} else {
+	el.style.top = axisY+'px';
+	}
+	el.innerHTML =
+	'<div class="tl-connector" style="height:'+gap+'px;"></div>'+
+	'<div class="tl-card"><p class="tl-title">'+d.title+'</p><p class="tl-note">'+d.note+'</p></div>';
+	itemsEl.appendChild(el);
+	});
+	}
+	
+
+	render();
+	
+
+	var io = new IntersectionObserver(function(entries){
+	entries.forEach(function(e){
+	if(e.isIntersecting){ stage.classList.add('in-view'); io.disconnect(); }
+	});
+	}, {threshold:.2});
+	io.observe(stage);
+	})();
+	</script>
+	
+
+	<script>
+	(function(){
+	// Six ad slots. Fill in `img` with your creative's path once ready, and
+	// set clickable:true + href to a real URL for any ad that should link out.
+	// clickable:false renders as plain (non-link) content.
+	var ads = [
+	{label:'Ad 01', clickable:true, href:'https://godisomni.com', img:'GO_BannerAd01.webp'},
+	{label:'Ad 02', clickable:true, href:'https://www.amazon.com/Beach-Sand-Life-Surfboard-Sunshine/dp/B0F4Q4ZL9T/ref=sr_1_4?dib=eyJ2IjoiMSJ9.0hYbhdJg0LuCe_lmUdZEvqyJMXCPmfKAqxeOxkCqmSXvSCTbPrmVpxjIt1yeuXoF.9MFF27ziAtwr4l8ycn47ScCqrKwuPxeQiv4C-dQ4rIo&dib_tag=se&qid=1792902781&refinements=p_4%3ABeach%2BSand%2BLife&s=apparel&sr=1-4&customId=B07537V9DX&customizationToken=MC_Assembly_1%23B07537V9DX&th=1&psc=1', img:'Shell_BannerAd01.webp'},
+	{label:'Ad 03', clickable:true, href:'https://www.amazon.com/Beach-Sand-Life-Poppin-T-Shirt/dp/B0F5LQMQX5/ref=sr_1_2?dib=eyJ2IjoiMSJ9.0hYbhdJg0LuCe_lmUdZEvqyJMXCPmfKAqxeOxkCqmSXvSCTbPrmVpxjIt1yeuXoF.9MFF27ziAtwr4l8ycn47ScCqrKwuPxeQiv4C-dQ4rIo&dib_tag=se&qid=1792902864&refinements=p_4%3ABeach+Sand+Life&s=apparel&sr=1-2', img:'Shell_BannerAd02.webp'},
+	{label:'Ad 04', clickable:true, href:'#', img:'AAAI_BannerAd01.webp'},
+	{label:'Ad 05', clickable:true, href:'https://godisomni.com', img:'GO_BannerAd02.webp'},
+	{label:'Ad 06', clickable:true, href:'#', img:'bvportfolio_BannerAd.webp'}
+	];
+	var ROTATE_MS = 4500;
+	
+
+	var frame = document.getElementById('adFrame'),
+	dotsEl = document.getElementById('adDots');
+	if(!frame) return;
+	
+
+	var slides = [], dots = [], current = 0, timer = null;
+	var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+	
+
+	ads.forEach(function(ad, i){
+	var el = document.createElement(ad.clickable ? 'a' : 'div');
+	el.className = 'ad-slide' + (ad.clickable ? ' is-clickable' : '');
+	if(ad.clickable){ el.href = ad.href || '#'; el.target = '_blank'; el.rel = 'noopener'; }
+	el.innerHTML = ad.img
+	? '<img src="'+ad.img+'" alt="'+ad.label+'">'
+	: '<div class="ph mono">AD PLACEHOLDER<span class="cap">970×250 — '+ad.label+(ad.clickable ? '' : ' · static')+'</span></div>';
+	frame.appendChild(el);
+	slides.push(el);
+	
+
+	var dot = document.createElement('button');
+	dot.type = 'button';
+	dot.className = 'ad-dot';
+	dot.setAttribute('aria-label', 'Show '+ad.label);
+	dot.addEventListener('click', function(){ goTo(i); resetTimer(); });
+	dotsEl.appendChild(dot);
+	dots.push(dot);
+	});
+	
+
+	function goTo(i){
+	slides[current].classList.remove('active');
+	dots[current].classList.remove('active');
+	current = i;
+	slides[current].classList.add('active');
+	dots[current].classList.add('active');
+	}
+	
+
+	function next(){ goTo((current + 1) % slides.length); }
+	
+
+	function resetTimer(){
+	if(reduced) return;
+	if(timer) clearInterval(timer);
+	timer = setInterval(next, ROTATE_MS);
+	}
+	
+
+	goTo(0);
+	resetTimer();
+	
+
+	frame.addEventListener('mouseenter', function(){ if(timer) clearInterval(timer); });
+	frame.addEventListener('mouseleave', resetTimer);
+	})();
+	</script>
+<div class="lightbox" id="lightbox"><img alt=""></div> <script> (function(){ var lb = document.getElementById('lightbox'); var lbImg = lb.querySelector('img'); document.querySelectorAll('.plate-img img').forEach(function(img){ img.addEventListener('click', function(){ lbImg.src = img.src; lbImg.alt = img.alt; lb.classList.add('open'); }); }); lb.addEventListener('click', function(){ lb.classList.remove('open'); }); document.addEventListener('keydown', function(e){ if(e.key === 'Escape') lb.classList.remove('open'); }); })(); </script>
+	</body>
+	</html>
