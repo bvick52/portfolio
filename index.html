@@ -53,8 +53,8 @@
 	
 
 	/* hero */
-	.hero{position:relative; padding:110px 0 90px; border-bottom:1px solid var(--line); overflow:hidden}
-	.hero-bg{position:absolute; inset:0; z-index:0; pointer-events:none; overflow:hidden}
+	.hero{position:relative; padding:110px 0 90px; border-bottom:1px solid var(--line); overflow:hidden; background:var(--paper)}
+	.hero-bg{position:absolute; inset:0; z-index:0; pointer-events:none; overflow:hidden; perspective:1100px}
 	.blob{position:absolute; border-radius:50%; filter:blur(70px); opacity:.5}
 	.blob.b1{width:440px; height:440px; background:radial-gradient(circle, var(--cyan), transparent 70%); top:-160px; left:-100px}
 	.blob.b2{width:380px; height:380px; background:radial-gradient(circle, var(--blue), transparent 70%); bottom:-160px; right:-80px}
@@ -64,6 +64,16 @@
 	.orbit-node{animation-play-state:running}
 	.draw{stroke-dasharray:60; stroke-dashoffset:60; animation:draw 1.1s ease forwards .2s}
 	}
+	.sheet{position:absolute; left:50%; top:48%; width:1000px; height:700px; margin:-350px 0 0 -500px; background-color:#fbfcfd; box-shadow:0 30px 60px rgba(16,24,32,.22),0 0 0 1px var(--line); transform:rotateX(58deg) rotateZ(-24deg); background-image:repeating-linear-gradient(0deg, var(--line) 0 1px, transparent 1px 88px), repeating-linear-gradient(90deg, var(--line) 0 1px, transparent 1px 88px), repeating-linear-gradient(0deg, var(--line-soft) 0 1px, transparent 1px 22px), repeating-linear-gradient(90deg, var(--line-soft) 0 1px, transparent 1px 22px)}
+.sheet i{position:absolute; width:22px; height:22px; border:1px solid var(--cyan); border-radius:50%}
+.sheet i::before,.sheet i::after{content:""; position:absolute; background:var(--cyan)}
+.sheet i::before{left:50%; top:-5px; bottom:-5px; width:1px}
+.sheet i::after{top:50%; left:-5px; right:-5px; height:1px}
+.caret{display:inline-block; width:.06em; height:.8em; margin-left:.04em; background:var(--cyan); vertical-align:-.05em; animation:blink 1s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
+@keyframes panSheet{from{transform:rotateX(58deg) rotateZ(-24deg) translate(-140px,90px)}to{transform:rotateX(58deg) rotateZ(-24deg) translate(140px,-90px)}}
+@media (prefers-reduced-motion: no-preference){.sheet{animation:panSheet 16s ease-in-out infinite alternate}}
+@media (prefers-reduced-motion: reduce){.caret{animation:none}}	
 	@keyframes drift1{from{transform:translate(0,0) scale(1)} to{transform:translate(50px,35px) scale(1.15)}}
 	@keyframes drift2{from{transform:translate(0,0) scale(1)} to{transform:translate(-45px,-30px) scale(1.12)}}
 	@keyframes draw{to{stroke-dashoffset:0}}
@@ -226,13 +236,7 @@
 	<div class="hero-bg">
 	<div class="blob b1"></div>
 	<div class="blob b2"></div>
-	<div class="orbit-wrap">
-	<div class="orbit-ring"></div>
-	<div class="orbit-ring r2"></div>
-	<div class="orbit-ring r3"></div>
-	<div class="orbit-node"><i></i></div>
-	<div class="orbit-node n2"><i></i></div>
-	<div class="orbit-node n3"><i></i></div>
+	<div class="sheet"><i style="left:24px;top:24px"></i><i style="right:24px;top:24px"></i><i style="left:24px;bottom:24px"></i><i style="right:24px;bottom:24px"></i></div>
 	</div>
 	</div>
 	
@@ -244,7 +248,7 @@
 	<span class="cross br"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="var(--ink)" stroke-width="1" opacity=".3"/><line class="draw" x1="12" y1="4" x2="12" y2="20" stroke="var(--cyan)" stroke-width="1"/><line class="draw" x1="4" y1="12" x2="20" y2="12" stroke="var(--cyan)" stroke-width="1"/></svg></span>
 	
 
-	<h1 class="display">BV Portfolio</h1>
+	<h1 class="display" id="heroTitle" aria-label="BV Portfolio">BV Portfolio</h1>
 	
 
 	<div class="hero-meta">
@@ -392,7 +396,22 @@
 	</div>
 	</footer>
 	
-
+<script>
+(function(){
+var el=document.getElementById('heroTitle');
+if(!el) return;
+var TEXT='BV Portfolio';
+if(window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+el.innerHTML='<span class="t" aria-hidden="true"></span><span class="caret" aria-hidden="true"></span>';
+var t=el.querySelector('.t'), i=0;
+function step(){
+t.textContent=TEXT.slice(0,++i);
+if(i<TEXT.length) setTimeout(step,95+Math.random()*60);
+}
+setTimeout(step,400);
+})();
+</script>
+				
 	<script>
 	var menu = document.querySelector('.menu');
 	document.querySelectorAll('.menu-panel a').forEach(function(a){
